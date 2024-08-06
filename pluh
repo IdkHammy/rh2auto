@@ -107,6 +107,49 @@ AimingSection2:Button {
         print("SpaceCreator activated. BodyVelocity will now have its velocity multiplied by", multiplier)
     end
 }
+-- Button to activate Controller functionality
+AimingSection2:Button {
+    Name = "Controller Shoot",
+    callback = function()
+        local UserInputService = game:GetService("UserInputService")
+        local VirtualInputManager = game:GetService("VirtualInputManager")
+
+        local keyCode = Enum.KeyCode.E
+        local isHoldingE = false
+
+        local function startHoldingE()
+            if not isHoldingE then
+                VirtualInputManager:SendKeyEvent(true, keyCode, false, game)
+                isHoldingE = true
+                print("Started holding E")
+            end
+        end
+
+        local function stopHoldingE()
+            if isHoldingE then
+                VirtualInputManager:SendKeyEvent(false, keyCode, false, game)
+                isHoldingE = false
+                print("Stopped holding E")
+            end
+        end
+
+        UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+            if not gameProcessedEvent and input.UserInputType == Enum.UserInputType.Gamepad1 then
+                if input.KeyCode == Enum.KeyCode.ButtonL1 then
+                    startHoldingE()
+                end
+            end
+        end)
+
+        UserInputService.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.Gamepad1 and input.KeyCode == Enum.KeyCode.ButtonL1 then
+                stopHoldingE()
+            end
+        end)
+        
+        print("Controller Shoot functionality activated.")
+    end
+}
 
 -- Button to execute external script
 AimingSection2:Button {
