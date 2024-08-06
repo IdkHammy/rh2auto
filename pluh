@@ -112,7 +112,7 @@ AimingSection2:Button {
 AimingSection2:Button {
     Name = "Mobile",
     callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/IdkHammy/RH2AUTOi/main/source"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/IdkHammy/mobiletoggleui/main/mobileuitoggle"))()
     end
 }
 
