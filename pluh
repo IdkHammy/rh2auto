@@ -77,7 +77,7 @@ AimingSection1:Toggle {
 }
 
 -- Slider to set the multiplier for SpaceCreator
-local multiplier = 1.15 -- Default value
+local multiplier = 1.18 -- Default value
 AimingSection2:Slider {
     Name = "Velocity Multiplier",
     Default = multiplier,
