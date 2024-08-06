@@ -108,6 +108,14 @@ AimingSection2:Button {
     end
 }
 
+-- Button to execute external script
+AimingSection2:Button {
+    Name = "Mobile",
+    callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/IdkHammy/RH2AUTOi/main/source"))()
+    end
+}
+
 -- UI Settings (for ThemeManager and SaveManager integration)
 local ThemeManager = loadstring(game:HttpGet('https://raw.githubusercontent.com/LionTheGreatRealFrFr/MobileLinoriaLib/main/addons/ThemeManager.lua'))()
 local SaveManager = loadstring(game:HttpGet('https://raw.githubusercontent.com/LionTheGreatRealFrFr/MobileLinoriaLib/main/addons/SaveManager.lua'))()
