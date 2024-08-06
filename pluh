@@ -3,9 +3,9 @@ loadstring(game:HttpGet('https://raw.githubusercontent.com/drillygzzly/Roblox-UI
 
 local Library = initLibrary()
 local Window = Library:Load({
-    name = "xan",
-    sizeX = 425,
-    sizeY = 512,
+    name = "googoogaagaa",
+    sizeX = 225,
+    sizeY = 312,
     color = Color3.fromRGB(0, 0, 0)
 })
 
