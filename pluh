@@ -1,22 +1,39 @@
--- Load the new library
-loadstring(game:HttpGet('https://raw.githubusercontent.com/drillygzzly/Roblox-UI-Libs/main/Yun%20V2%20Lib/Yun%20V2%20Lib%20Source.lua'))()
+_Hawk = "ohhahtuhthttouttpwuttuaunbotwo"
+local Hawk = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheHanki/HawkHUB/main/LibSources/HawkLib.lua", true))()
 
-local Library = initLibrary()
-local Window = Library:Load({
-    name = "googoogaagaa",
-    sizeX = 225,
-    sizeY = 312,
-    color = Color3.fromRGB(0, 0, 0)
+local Window = Hawk:Window({
+    ScriptName = "googoogaagaa",
+    DestroyIfExists = true, -- If false, GUI won't disappear
+    Theme = "Dark" -- Themes: Pink, White, Dark
+})
+
+Window:Close({
+    visibility = true, -- If false, close button will disappear
+    Callback = function()
+        Window:Destroy() -- Destroying GUI Function
+    end,
+})
+
+Window:Minimize({
+    visibility = true, -- If false, minimize button will disappear
+    OpenButton = true, -- Visible = false etc, open button
+    Callback = function()
+    end,
 })
 
 -- Define tabs
-local AimingTab = Window:Tab("Aiming")
-local UISettingsTab = Window:Tab("UI Settings")
+local AimingTab = Window:Tab("main")
+local UISettingsTab = Window:Tab("timings")
 
 -- Define sections
-local AimingSection1 = AimingTab:Section({name = "Aim Assist", column = 1})
-local AimingSection2 = AimingTab:Section({name = "Silent Aimbot", column = 2})
-local VisualsSection1 = UISettingsTab:Section({name = "Settings", column = 1})
+local AimingSection1 = AimingTab:Section("AIMBOT dummy nigga")
+local AimingSection2 = AimingTab:Section("Player")
+local VisualsSection1 = UISettingsTab:Section("Settings")
+
+-- Initialize Settings table
+local Settings = {
+    Infstamina = false,
+}
 
 -- Variables for monitoring color changes
 local Players = game:GetService("Players")
@@ -51,121 +68,109 @@ local function monitorColor()
 end
 
 -- Slider to set the target element index
-AimingSection1:Slider {
-    Name = "Target Element Index",
-    Default = targetElementIndex,
-    Min = 0,
-    Max = 100, -- Adjust the max value as needed based on your game's elements
-    Decimals = 0,
-    Flag = "targetElementIndexSlider",
-    callback = function(Value)
-        targetElementIndex = Value
-        targetElement = bar:WaitForChild(tostring(targetElementIndex)) -- Update target element
-        print("Target element set to:", targetElementIndex)
-    end
-}
+AimingSection1:Slider("timing", targetElementIndex, 0, 100, function(Value)
+    targetElementIndex = Value
+    targetElement = bar:WaitForChild(tostring(targetElementIndex)) -- Update target element
+    print("Target element set to:", targetElementIndex)
+end)
 
 -- Toggle to start/stop color monitoring
-AimingSection1:Toggle {
-    Name = "aimbot",
-    flag = "monitorColorToggle",
-    callback = function(Value)
-        if Value then
-            monitorColor()
-        end
+AimingSection1:Toggle("aimbot", false, function(Value)
+    if Value then
+        monitorColor()
     end
-}
+end)
 
 -- Slider to set the multiplier for SpaceCreator
 local multiplier = 1.18 -- Default value
-AimingSection2:Slider {
-    Name = "Velocity Multiplier",
-    Default = multiplier,
-    Min = 1,
-    Max = 3.5, -- Adjust the max value as needed
-    Decimals = 0.5,
-    Flag = "velocityMultiplierSlider",
-    callback = function(Value)
-        multiplier = Value
-        print("Velocity multiplier set to:", multiplier)
-    end
-}
+AimingSection2:Slider("Velocity Multiplier", multiplier, 1, 3.5, function(Value)
+    multiplier = Value
+    print("Velocity multiplier set to:", multiplier)
+end)
 
 -- Button to activate SpaceCreator functionality
-AimingSection2:Button {
-    Name = "dribblespace",
-    callback = function()
-        local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+AimingSection2:Button("dribblespace", "Activate SpaceCreator", function()
+    local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 
-        -- Connect to the DescendantAdded event to multiply velocity
-        humanoidRootPart.DescendantAdded:Connect(function(v)
-            if v:IsA('BodyVelocity') then
-                v.Velocity = v.Velocity * multiplier
-            end
-        end)
+    -- Connect to the DescendantAdded event to multiply velocity
+    humanoidRootPart.DescendantAdded:Connect(function(v)
+        if v:IsA('BodyVelocity') then
+            v.Velocity = v.Velocity * multiplier
+        end
+    end)
 
-        print("SpaceCreator activated. BodyVelocity will now have its velocity multiplied by", multiplier)
-    end
-}
+    print("SpaceCreator activated. BodyVelocity will now have its velocity multiplied by", multiplier)
+end)
 
 -- Button to execute external script
-AimingSection2:Button {
-    Name = "Mobile",
-    callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/IdkHammy/mobiletoggleui/main/mobileuitoggle"))()
-    end
-}
+AimingSection2:Button("Mobile", "Load Mobile UI Toggle Script", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/IdkHammy/mobiletoggleui/main/mobileuitoggle"))()
+end)
 
 -- Button to activate Controller functionality
-AimingSection2:Button {
-    Name = "Controller Shoot",
-    callback = function()
-        local UserInputService = game:GetService("UserInputService")
-        local VirtualInputManager = game:GetService("VirtualInputManager")
+AimingSection2:Button("Controller Shoot", "Activate Controller Shoot", function()
+    local UserInputService = game:GetService("UserInputService")
+    local VirtualInputManager = game:GetService("VirtualInputManager")
 
-        local keyCode = Enum.KeyCode.E
-        local isHoldingE = false
+    local keyCode = Enum.KeyCode.E
+    local isHoldingE = false
 
-        local function startHoldingE()
-            if not isHoldingE then
-                VirtualInputManager:SendKeyEvent(true, keyCode, false, game)
-                isHoldingE = true
-                print("Started holding E")
-            end
+    local function startHoldingE()
+        if not isHoldingE then
+            VirtualInputManager:SendKeyEvent(true, keyCode, false, game)
+            isHoldingE = true
+            print("Started holding E")
         end
-
-        local function stopHoldingE()
-            if isHoldingE then
-                VirtualInputManager:SendKeyEvent(false, keyCode, false, game)
-                isHoldingE = false
-                print("Stopped holding E")
-            end
-        end
-
-        UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
-            if not gameProcessedEvent and input.UserInputType == Enum.UserInputType.Gamepad1 then
-                if input.KeyCode == Enum.KeyCode.ButtonL1 then
-                    startHoldingE()
-                end
-            end
-        end)
-
-        UserInputService.InputEnded:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.Gamepad1 and input.KeyCode == Enum.KeyCode.ButtonL1 then
-                stopHoldingE()
-            end
-        end)
-        
-        print("Controller Shoot functionality activated.")
     end
-}
+
+    local function stopHoldingE()
+        if isHoldingE then
+            VirtualInputManager:SendKeyEvent(false, keyCode, false, game)
+            isHoldingE = false
+            print("Stopped holding E")
+        end
+    end
+
+    UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+        if not gameProcessedEvent and input.UserInputType == Enum.UserInputType.Gamepad1 then
+            if input.KeyCode == Enum.KeyCode.ButtonL1 then
+                startHoldingE()
+            end
+        end
+    end)
+
+    UserInputService.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.Gamepad1 and input.KeyCode == Enum.KeyCode.ButtonL1 then
+            stopHoldingE()
+        end
+    end)
+    
+    print("Controller Shoot functionality activated.")
+end)
+
+-- Add the inf stamina functionality
+local function infStamina()
+    if Settings.Infstamina then
+        local replicatedStorage = game:GetService("ReplicatedStorage")
+        local sprintingEvent = replicatedStorage:WaitForChild("PlayerEvents"):WaitForChild("Sprinting")
+        sprintingEvent:FireServer(false)
+    end
+end
+
+AimingSection2:Toggle("Inf Stamina", false, function(Value)
+    Settings.Infstamina = Value
+end)
+
+RunService.Heartbeat:Connect(function()
+    infStamina()
+end)
 
 -- UI Settings (for ThemeManager and SaveManager integration)
 local ThemeManager = loadstring(game:HttpGet('https://raw.githubusercontent.com/LionTheGreatRealFrFr/MobileLinoriaLib/main/addons/ThemeManager.lua'))()
 local SaveManager = loadstring(game:HttpGet('https://raw.githubusercontent.com/LionTheGreatRealFrFr/MobileLinoriaLib/main/addons/SaveManager.lua'))()
 
-ThemeManager:SetLibrary(Library)
-SaveManager:SetLibrary(Library)
+ThemeManager:SetLibrary(Hawk)
+SaveManager:SetLibrary(Hawk)
 
 SaveManager:IgnoreThemeSettings()
 SaveManager:SetIgnoreIndexes({ 'MenuKeybind' })
@@ -178,7 +183,7 @@ ThemeManager:ApplyToTab(UISettingsTab)
 
 SaveManager:LoadAutoloadConfig()
 
-Library:OnUnload(function()
+Hawk:OnUnload(function()
     print('Unloaded!')
-    Library.Unloaded = true
+    Hawk.Unloaded = true
 end)
